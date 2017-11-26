@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bh.demo.dao.ProductMapper">
+  <resultMap id="BaseResultMap" type="com.bh.demo.model.Product">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="category_code" jdbcType="VARCHAR" property="categoryCode" />
+    <result column="category_name" jdbcType="VARCHAR" property="categoryName" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="qty" jdbcType="INTEGER" property="qty" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, code, category_code, name, price, qty, description, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from product
+    where code = #{code,jdbcType=VARCHAR}
+  </select>
+  <select id="selectMaxId" resultType="java.lang.Integer">
+    select IFNULL(max(id),0) from product
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from product   where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByPrimaryKeys" parameterType="java.lang.String">
+    delete from product where id in
+    <foreach item="id" collection="array" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </delete>
+  <insert id="insert" parameterType="com.bh.demo.model.Product" useGeneratedKeys="true" keyProperty="id">
+    insert into product (code, category_code,
+      name, price, qty, description, 
+      create_time, update_time)
+    values (#{code,jdbcType=VARCHAR}, #{categoryCode,jdbcType=VARCHAR},
+      #{name,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{qty,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <select id="listByPage" parameterType="com.bh.demo.model.Product" resultMap="BaseResultMap">
+  SELECT  product.id,product.code,product.category_code,product_category.name as category_name,product.name,
+    product.price,product.qty,product.description
+  from
+      product
+  join
+      product_category on product_category.code = product.category_code
+  <where>
+    <if test="code!=null &amp;&amp; code != ''">
+      and product.code=#{code}
+    </if>
+    <if test="name!=null &amp;&amp; name != ''">
+      and product.name like concat('%',#{name},'%')
+    </if>
+  </where>
+  <if test="sortString!=null &amp;&amp; sortString != ''">
+    order by ${sortString}
+  </if>
+  </select>
+  <update id="update" parameterType="com.bh.demo.model.Product">
+    update product
+    set code = #{code,jdbcType=VARCHAR},
+      category_code = #{categoryCode,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      qty = #{qty,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

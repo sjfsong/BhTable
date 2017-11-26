@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>BH</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.7 -->
+  <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="../dist/css/skins/_all-skins.css">
+  <link rel="stylesheet" href="../dist/css/bh.css">
+  <![endif]-->
+
+  <!-- Google Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+<style>
+  .img_container > i, .img_container2 > i {
+    position:relative;
+    top: calc(50% - 10px); /* 50% - 3/4 of icon height */
+  }
+</style>
+<!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
+<body class="hold-transition skin-blue layout-top-nav">
+<div class="wrapper">
+
+  <header class="main-header">
+    <nav class="navbar navbar-static-top">
+      <div class="navbar-header">
+        <a href="#" class="navbar-brand"><b>BH</b>大数据</a>
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+          <i class="fa fa-bars"></i>
+        </button>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hadoop<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">HDFS</a></li>
+              <li><a href="#">Map Reduce</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hive<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">元数据</a></li>
+              <li><a href="#">执行Sql</a></li>
+            </ul>
+          </li>
+        </ul>
+        <form class="navbar-form navbar-left" role="search">
+          <div class="form-group">
+            <input type="text" class="form-control" id="navbar-search-input" placeholder="Search">
+          </div>
+        </form>
+      </div>
+    </nav>
+  </header>
+  <!-- Full Width Column -->
+  <div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">HDFS文件</h3>
+        </div>
+        <div id="bhTable"></div>
+      </div>
+      <!-- /.box -->
+    </section>
+    <!-- /.container -->
+  </div>
+  <div id="gridSearch">
+    <form class="form-inline">
+      <div class="form-group">
+        <label for="queryId">编号</label>
+        <input type="text" class="form-control input-sm" id="queryId" name="id" placeholder="编号">
+      </div>
+      <div class="form-group">
+        <label for="queryName">名称</label>
+        <input type="text" class="form-control input-sm" id="queryName" name="name" placeholder="名称">
+      </div>
+      <button type="button" class="btn btn-default btn-sm bg-blue"><i class="fa fa-search"></i></button>
+    </form>
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="pull-right hidden-xs">
+        <b>Version</b> 2.4.0
+      </div>
+      <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">BH</a>.</strong> All rights
+      reserved.
+    </div>
+  </footer>
+</div>
+
+<script src="../plugins/jquery/jquery-3.2.1.js"></script>
+<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="../dist/js/adminlte.min.js"></script>
+<script src="../dist/js/bhCheck.js"></script>
+<script src="../dist/js/bh.js"></script>
+<script src="../plugins/layer-v3.1.0/layer.js"></script>
+<script language="JavaScript">
+  $(function () {
+      $("#bhTable").bhTable({
+          height: 400,
+          width:1100,
+          columns: [
+              {name: 'warehouseId',title: "编号",index: 'warehouseId',width: 100,sorttype: "int",key: true, editable: false,sotrable:true},
+              {name: 'name', title: "名称", index: 'name', width: 200, editable: true,sotrable:true},
+              {name: 'description', title: "描述", index: 'description', width: 300, editable: true},
+              {name: 'sort', title: "类别", index: 'sort', width: 100, editable: true},
+              {name: 'hscode', title: "海关编码", index: 'hscode', width: 100, editable: true,sotrable:true},
+              {name: 'lotPrefix', title: "批号前置码", index: 'lotPrefix', width: 150, editable: true,sotrable:true},
+              {name: 'currentLotNo', title: "当前批号编号", index: 'currentLotNo', width: 150, editable: true,sotrable:true},
+              {name: 'defaultAreaId', title: "默认储区", index: 'defaultAreaId', width: 100, editable: true}
+          ],
+          rowEditColumn:true,
+          checkColumn:true,
+          searchDiv:$("#gridSearch"),
+          pageDiv:$("#pageBhTable"),
+          buttons:[{tag:"add",show:true,click:function () {
+              //捕获页
+              layer.open({
+                  type: 1,
+                  skin: 'layui-layer-lan',
+                  area: ['550px', '390px'], //宽高
+                  shadeClose: false, //显示模态窗口
+                  closeBtn:0,
+                  id: 'LAY_layuipro', //设定一个id，防止重复弹出
+                  resize: false,
+                  title: '修改数据', //不显示标题
+                  content: $("#dvUpdate"), //捕获的元素
+                  btn: ['提交', '取消'],
+                  yes: function(index, layero){
+                      if($("#frmUpdate").bhForm().validate()){
+                          alert("OK");
+                      }
+                 },btn2: function(index, layero){
+                      layer.close(index);
+                 }
+              });
+          }},
+          {tag:"edit",show:true,click:function (rows) {
+              console.log($("#bhTable").bhTable().getSelectData());
+              console.log(rows);
+          }},
+          {tag:"delete",show:true,click:function (rows) {
+              console.log(rows);
+          }},
+          {tag:"refresh",show:true}],
+          custmButtons:[
+              {tag:"allocate",show:true,title:"库存分配",color:"blue",icon:"fa  fa-sticky-note",click:function (rows) {
+                  console.log($("#bhTable").bhTable().getSelectData());
+                  console.log(rows);
+              }},
+              {tag:"cancel",show:true,title:"取消",color:"blue",icon:"fa  fa-tasks",click:function (rows) {
+                  console.log($("#bhTable").bhTable().getSelectData());
+                  console.log(rows);
+              }},
+              {tag:"pick",show:true,title:"检货",color:"blue",icon:"fa fa-qrcode",click:function (rows) {
+                  console.log($("#bhTable").bhTable().getSelectData());
+                  console.log(rows);
+              }}],
+          rowButtons:[{tag:"edit",show:true,click:function (row,index) {
+              console.log(row);
+              console.log(index);
+          }},{tag:"delete",show:true,click:function (row,index) {
+                  console.log(row);
+                  console.log(index);
+              }}],
+          formatRow:function (row) {
+              if(row.defaultAreaId == "defaultAreaId4"){
+                  row.rowButtons.push({tag:"PPPPPP",show:true,title:"单元测试",color:"blue",icon:"fa fa-building",click:function (rows) {
+                      console.log("PPPPPP");
+                      console.log(rows);
+                  }});
+              };
+              if(row.sort == "sort3"){
+                  $.each(row.rowButtons,function (index,value) {
+                     if(value.tag == "delete"){
+                         value.show = false;
+                     }
+                  });
+              }
+          }
+      });
+      var data = [];
+      for(var i=0;i<10;i++)
+      {
+          data.push({
+              warehouseId: "warehouseId" + i,
+              name: "name" + i,
+              description: "description" + i,
+              sort: "sort" + i,
+              hscode: "hscode" + i,
+              lotPrefix: "lotPrefix" + i,
+              currentLotNo: "currentLotNo" + i,
+              defaultAreaId: "defaultAreaId" + i
+          });
+      }
+      $("#bhTable").bhTable().setData({
+          firstPage:false,
+          hasNextPage:true,
+          hasPreviousPage:true,
+          isFirstPage:false,
+          isLastPage:false,
+          endRow:110,
+          lastPage:10,
+          nextPage:20,
+          startRow:100,
+          total:200,
+          pageNum:90,
+          pages:100,
+          list:data
+      });
+  })
+</script>
+</body>
+</html>
