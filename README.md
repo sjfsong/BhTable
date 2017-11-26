@@ -16,3 +16,6 @@
 点title可以多行分页，上箭头亮标识asc，下箭头亮标识desc，如果都灰了标识不按照这列分页，可以选择多列来排序
 
 >demo，我已经写了一个spring mvc的demo，大家自行查看
+
+我写了一个简单的使用帮助，可以到这个地址看
+https://www.zybuluo.com/songlaf/note/964426
