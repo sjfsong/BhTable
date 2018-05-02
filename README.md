@@ -4,11 +4,7 @@
 
 有朋友反馈说，他们不用AdminLTE，所以没法使用，
 等目前手头上的项目结束，重写一下，纯bootstrap的，不用adminlte。
-
->做了一个SpringMVC的，已经上传
-
-可以到这个网址看效果http://www.bhtable.com/bhtable/crud
-
+ 
 
 >可以加入我QQ群（552596594）,进行讨论，有任何需求可以提出来，希望将来能做的更好，目前对我来说是够用了。
 
